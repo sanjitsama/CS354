@@ -38,7 +38,7 @@ syscall	sleepms(
 
 	/* Delay calling process */
 
-	if (insertd(currpid, sleepq, delay) == SYSERR) {
+	if (insertd(currpid, sleepq, delay) == SYSERR) { //Delay is key value 
 		restore(mask);
 		return SYSERR;
 	}

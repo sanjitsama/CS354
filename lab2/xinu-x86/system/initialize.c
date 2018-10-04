@@ -152,6 +152,16 @@ void daemonProcess()
 			//prprio = prbaseprio + ( 2 * prextprio ) + prrecent
 				prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
 
+				if(prptr->new_prprio > 127)
+				{
+					prptr->new_prprio = 127;
+				}
+
+				if(prptr->new_prprio < 0)
+				{
+					prptr->new_prprio = 0;
+				}
+
 
 			// (d) Recalculate prquantum for each process.
 			//prquantum = QUANTUM + prrecent
@@ -160,11 +170,15 @@ void daemonProcess()
 			}
 
 
+			DBG_PRINT("*********************** START ***********************\n",NULL);
+			DBG_PRINT("new_prprio: %d\n", prptr->new_prprio);
+			DBG_PRINT("prrecent: %d\n",prptr->prrecent);
 			DBG_PRINT("temp: %d\n",temp);
+			DBG_PRINT("counter: %d\n", counter);
 			DBG_PRINT("instaLoad: %d\n",instaLoad);
 			DBG_PRINT("runningTotal: %d\n",runningTotal);	
 			DBG_PRINT("aveload: %d\n",aveload);	
-
+			DBG_PRINT("*********************** END ***********************\n",NULL);
 
 
 
@@ -289,22 +303,21 @@ static	void	sysinit()
 		prptr->prprio = 0;
 
 		//TODO MY EDITS
-		prptr->new_prprio = 0;
+		prptr->prprio = 0;
 	}
 
 	/* Initialize the Null process entry */	
 
 	prptr = &proctab[NULLPROC];
 	prptr->prstate = PR_CURR;
-	prptr->prprio = 0;
+	prptr->prprio = 0; //TODO THIS SHOULD BE CHANGED TO 128
 	strncpy(prptr->prname, "prnull", 7);
 	prptr->prstkbase = getstk(NULLSTK);
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
 	currpid = NULLPROC;
 
-	//MY EDITS
-	prptr->new_prprio = 0;
+
 	
 	/* Initialize semaphores */
 
