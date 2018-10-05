@@ -32,13 +32,6 @@ status	insert(
 	queuetab[pid].qkey = key;
 	queuetab[prev].qnext = pid;
 	queuetab[curr].qprev = pid;
-
-
-
-
-	/* ATTEMP AT REVERSING THE QUEUE */
-	
-
 	
 	return OK;
 }

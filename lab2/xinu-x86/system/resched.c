@@ -33,6 +33,10 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 		/* Old process will no longer remain current */
 
 		ptold->prstate = PR_READY;
+	//	kprintf("AKSJF;LJSDL;JFL;AJSD;LJF;AJSD;JFJA;SDJF;ASDFKJ;ALSDJF;JA;SDJFKJASDF;JASDJF;AJSD;F;AJSDF;AJSD;KLJ;LASJDFJALSDJFJASLK;DJFAJSD;FJA;SDJFLJAS;DF");
+		// DBG_PRINT("ptold->prprio: %d\n", ptold->prprio);
+		// DBG_PRINT("ptold->new_prprio: %d\n", ptold->new_prprio);
+		//printf("currpid: %d\n\n\n\n\n\n\n\n",currpid );
 		insert(currpid, readylist, ptold->prprio);
 	}
 

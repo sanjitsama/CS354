@@ -167,12 +167,23 @@ void daemonProcess()
 			//prquantum = QUANTUM + prrecent
 				prptr->prquantum = QUANTUM + prptr->prrecent;
 
+				if(prptr->new_prprio > 0)
+				{
+				//	DBG_PRINT("THE new_prprio IS > 0: %d\n", prptr->new_prprio);
+				}
+
 			}
 
 
 			DBG_PRINT("*********************** START ***********************\n",NULL);
+			DBG_PRINT("prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent; \n", NULL);
+			DBG_PRINT("prptr->prbaseprio: %d\n", prptr->prbaseprio);
+			DBG_PRINT("(2 * prptr->prextprio): %d\n", prptr->prextprio * 2);
+			DBG_PRINT("prptr->prrecent: %d\n", prptr->prrecent);
 			DBG_PRINT("new_prprio: %d\n", prptr->new_prprio);
-			DBG_PRINT("prrecent: %d\n",prptr->prrecent);
+	
+
+			//DBG_PRINT("prrecent: %d\n",prptr->prrecent);
 			DBG_PRINT("temp: %d\n",temp);
 			DBG_PRINT("counter: %d\n", counter);
 			DBG_PRINT("instaLoad: %d\n",instaLoad);
@@ -244,9 +255,12 @@ void	nulluser()
 
 	/* Create a process to execute function main() */
 
-	resume (
-	   create((void *)main, INITSTK, INITPRIO, "Main process", 0,
-           NULL));
+
+	pid32 mainPid = create((void *)main, INITSTK, INITPRIO, "Main process", 0,
+           NULL);
+
+	DBG_PRINT("mProcess: %d\n", mainPid);
+	resume (mainPid);
 
 	/* Become the Null process (i.e., guarantee that the CPU has	*/
 	/*  something to run when no other process is ready to execute)	*/

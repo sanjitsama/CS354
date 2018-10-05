@@ -40,6 +40,7 @@ syscall	system(
 		prptr->new_prprio = 0;
 	}	
 
+	//insert(pid, readylist, prptr->prprio);
 
 	restore(mask);
 	return OK;
