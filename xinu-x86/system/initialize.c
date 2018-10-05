@@ -105,10 +105,8 @@ void daemonProcess(){
 
 
 				prptr->prrecent = (aveload * prptr->prrecent) / ((2 * aveload )  + 1) + prptr->prextprio;
+
 				//Conditional below DID NOT fix negative prrecent
-
-
-
 				prptr->prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
 
 				
@@ -129,33 +127,41 @@ void daemonProcess(){
 
 				prptr->prquantum = QUANTUM + prptr->prrecent;
 
+
+
+				if(prptr->prstate == PR_READY) {
+					pid32 id = getitem(i);
+					//insert(id,readylist, proctab[id].prprio);
+					insert(id,readylist, prptr->prprio);
+				}
+
 			}
 
 
 			
-			DBG_PRINT("*********************** START ***********************\n",NULL);
-			DBG_PRINT("prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent; \n", NULL);
-			DBG_PRINT("prptr->prbaseprio: %d\n", prptr->prbaseprio);
-			DBG_PRINT("(2 * prptr->prextprio): %d\n", prptr->prextprio * 2);
-			DBG_PRINT("prptr->prrecent: %d\n", prptr->prrecent);
-			DBG_PRINT("new_prprio: %d\n", prptr->new_prprio);
+			// kprintf("*********************** START ***********************\n",NULL);
+			// kprintf("prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent; \n", NULL);
+			// kprintf("prptr->prbaseprio: %d\n", prptr->prbaseprio);
+			// kprintf("(2 * prptr->prextprio): %d\n", prptr->prextprio * 2);
+			// kprintf("prptr->prrecent: %d\n", prptr->prrecent);
+			// kprintf("new_prprio: %d\n", prptr->prprio);
 	
 
-			//DBG_PRINT("prrecent: %d\n",prptr->prrecent);
-			DBG_PRINT("temp: %d\n",temp);
-			DBG_PRINT("counter: %d\n", counter);
-			DBG_PRINT("instaLoad: %d\n",instaLoad);
-			DBG_PRINT("runningTotal: %d\n",runningTotal);	
-			DBG_PRINT("aveload: %d\n",aveload);	
-			DBG_PRINT("*********************** END ***********************\n",NULL);
+			// //DBG_PRINT("prrecent: %d\n",prptr->prrecent);
+			// kprintf("temp: %d\n",temp);
+			// kprintf("counter: %d\n", counter);
+			// kprintf("instaLoad: %d\n",instaLoad);
+			// kprintf("runningTotal: %d\n",runningTotal);	
+			// kprintf("aveload: %d\n",aveload);	
+			// kprintf("*********************** END ***********************\n",NULL);
 
-			for(int i = 1; i < NPROC; i++){
+			//for(int i = 1; i < NPROC; i++){
 				
-				if(proctab[i].prstate == PR_READY) {
-					pid32 id = getitem(i);
-					insert(id,readylist, proctab[id].prprio);
-				}
-			}
+				// if(proctab[i].prstate == PR_READY) {
+				// 	pid32 id = getitem(i);
+				// 	insert(id,readylist, proctab[id].prprio);
+				// }
+			//}
 
 		restore(mask);
 			
@@ -204,6 +210,7 @@ void	nulluser()
 
 	DBG_PRINT("dProcess: %d\n", dProcess);
 
+	system(dProcess);
 	resume(dProcess);
 
 	enable();

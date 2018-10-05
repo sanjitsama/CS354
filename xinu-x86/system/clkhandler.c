@@ -41,7 +41,8 @@ void	clkhandler()
 	/*   remaining time reaches zero			     */
 
 	if((--preempt) <= 0) {
-		preempt = QUANTUM;
+		//preempt = QUANTUM;
+		preempt = proctab[currpid].prquantum;
 		resched();
 	}
 
@@ -50,20 +51,27 @@ void	clkhandler()
 	{
 		if(currpid!=0)
 		{
-			proctab[currpid].prrecent++;	
+			proctab[currpid].prrecent = proctab[currpid].prrecent + 1 ;	
 		}
 		
 
 		count10 = 10;
 
 		
-	if(currpid != 0)
-	{
-	proctab[currpid].prprio = proctab[currpid].prbaseprio + (2 * proctab[currpid].prextprio) + proctab[currpid].prrecent;	
-	}
+
+		//This below is not changing test2 by much if
+		// if(currpid != 0)
+		// {
+		// proctab[currpid].prprio = proctab[currpid].prbaseprio + (2 * proctab[currpid].prextprio) + proctab[currpid].prrecent;	
+		// }
+
+
 		//prptr->prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
 		//proctab[currpid].prprio = proctab[currpid].prbaseprio + (2 * proctab[currpid].prextprio) + proctab[currpid].prrecent;
+		
 	}
+
+	//resched();
 
 	
 }

@@ -24,6 +24,28 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 
 	ptold = &proctab[currpid];
 
+
+	if(currpid != 0)
+	{
+		ptold->prprio = ptold->prbaseprio + ( 2 * ptold->prextprio) + ptold->prrecent;
+		ptold->prquantum = QUANTUM + ptold->prrecent;
+
+		if(ptold->prprio < 0)
+		{
+			ptold->prprio = 0;
+		}
+
+		if(ptold->prprio > 127)
+		{
+			ptold->prprio = 127;
+		}
+	}
+
+
+
+
+
+
 	if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
 		if (ptold->prprio < firstkey(readylist)) {
 			return;

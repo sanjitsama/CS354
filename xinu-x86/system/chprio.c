@@ -21,8 +21,14 @@ pri16	chprio(
 		return (pri16) SYSERR;
 	}
 	prptr = &proctab[pid];
-	oldprio = prptr->prprio;
-	prptr->prprio = newprio;
+//	oldprio = prptr->prprio;
+//	prptr->prprio = newprio;
+
+
+	oldprio = prptr->prextprio;
+	prptr->prextprio = newprio;	
+
+	resched();
 	restore(mask);
 	return oldprio;
 }

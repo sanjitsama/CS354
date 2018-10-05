@@ -35,8 +35,6 @@ syscall	system(
 	{
 		prptr->prrecent = 0;
 	}
-
-
 	if(prptr->prprio > 127)
 	{
 		prptr->prprio = 127;
@@ -46,14 +44,16 @@ syscall	system(
 		prptr->prprio = 0;
 	}	
 
-				for(int i = 1; i < NPROC; i++){
+	// for(int i = 1; i < NPROC; i++){
 				
-				if(proctab[i].prstate == PR_READY) {
-					pid32 id = getitem(i);
-					insert(id,readylist, proctab[id].prprio);
-				}
-			}
+		// if(proctab[pid].prstate == PR_READY) {
+		// 		pid32 id = getitem(pid);
+		// 		insert(id,readylist, proctab[id].prprio);
+				
+		// }
+	// }
 
+	resched();
 	restore(mask);
 	return OK;
 }
