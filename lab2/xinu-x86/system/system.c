@@ -29,15 +29,15 @@ syscall	system(
 
 	prptr = &proctab[pid];
 	prptr->prbaseprio =0;
-	prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
+	prptr->prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
 
-	if(prptr->new_prprio > 127)
+	if(prptr->prprio > 127)
 	{
-		prptr->new_prprio = 127;
+		prptr->prprio = 127;
     }
-	if(prptr->new_prprio < 0)
+	if(prptr->prprio < 0)
 	{
-		prptr->new_prprio = 0;
+		prptr->prprio = 0;
 	}	
 
 	//insert(pid, readylist, prptr->prprio);

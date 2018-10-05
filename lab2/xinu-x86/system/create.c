@@ -49,7 +49,8 @@ pid32	create(
 	prptr->prname[PNMLEN-1] = NULLCH;
 
 	/* MY EDITS */
-	prptr->new_prprio = (priority*2) + 50;
+	//prptr->new_prprio = (priority*2) + 50;
+	prptr->prprio = (priority*2) + 50;
 	prptr->prbaseprio = 50;
 	prptr->prrecent = 0;
 	prptr->prquantum = QUANTUM;

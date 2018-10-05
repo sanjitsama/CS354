@@ -64,7 +64,7 @@ struct procent {		/* Entry in the process table		*/
 	
 	//Need a variable for testing priprio
 	//prprio is limited to a maximum value of 127, and a minimum value of 0.
-	pri16 new_prprio; 
+	//pri16 new_prprio; 
 
 	//prbaseprio = 0 if this is a system process or 50 if this is a user process. Will be updated 
 	int32 prbaseprio;

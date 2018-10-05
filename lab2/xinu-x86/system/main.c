@@ -15,17 +15,16 @@ process main(void)
   pid32 prP;
   pid32 prA, prB, prC;
 
-  prP = create(printProc, INITSTK, 20, "Print", 0);
+  prP = create(printProc, INITSTK, -10, "Print", 0);
   system(prP);
   resume(prP);
 
   kprintf("\nStarting A\n");
-  prA = create(loop, INITSTK, 10, "Pr A", 2, think, 'A');
-  printf("prA: %d\n",prA);
+  prA = create(loop, INITSTK, 0, "Pr A", 2, think, 'A');
   resume(prA);
 
   kprintf("\nStarting B\n");
-  prB = create(sleepingloop, INITSTK, 10, "Pr B", 3, (int32)20, think/2, 'B');
+  prB = create(sleepingloop, INITSTK, 0, "Pr B", 3, (int32)20, think/2, 'B');
   resume(prB);
   
   return OK;
@@ -36,7 +35,7 @@ process loop(int32 think, char c)
   int i;
   while(TRUE)
     {
-      //kprintf("oh: %c",c);
+      //kprintf("%c",c);
       for (i = 0; i < think; i++);
     }
 }
@@ -47,7 +46,7 @@ process sleepingloop(int32 sleep, int32 think, char c)
   while(TRUE)
     {
       for (i = 0; i < think; i++);
-    //  kprintf("%c", c);
+      //kprintf("%c", c);
       sleepms(sleep);
     }
 }
@@ -69,7 +68,7 @@ process printProc()
     for(i=0; i<NPROC; ++i)
     {
       pent = proctab + i;
-      if(pent->prstate != PR_FREE) kprintf("%s\t%d\t%d\t%d\n", pent->prname, pent->prrecent, pent->new_prprio, pent->prquantum);
+      if(pent->prstate != PR_FREE) kprintf("%s\t%d\t%d\t%d\n", pent->prname, pent->prrecent, pent->prprio, pent->prquantum);
     }
     kprintf("\n");
     restore(mask);

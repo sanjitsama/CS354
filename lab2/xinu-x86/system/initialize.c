@@ -43,6 +43,7 @@ pid32	currpid;		/* ID of currently executing process	*/
 void daemonProcess()
 {
 
+	kprintf("Starting Daemeon Process");
 	//Call Disable 
 	intmask	mask;
 
@@ -150,7 +151,7 @@ void daemonProcess()
 
 			// (c) Recalculate prprio for each process.
 			//prprio = prbaseprio + ( 2 * prextprio ) + prrecent
-				prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
+/*				prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
 
 				if(prptr->new_prprio > 127)
 				{
@@ -161,13 +162,25 @@ void daemonProcess()
 				{
 					prptr->new_prprio = 0;
 				}
+*/
 
+				prptr->prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
+
+				if(prptr->prprio > 127)
+				{
+					prptr->prprio = 127;
+				}
+
+				if(prptr->prprio < 0)
+				{
+					prptr->prprio = 0;
+				}
 
 			// (d) Recalculate prquantum for each process.
 			//prquantum = QUANTUM + prrecent
 				prptr->prquantum = QUANTUM + prptr->prrecent;
 
-				if(prptr->new_prprio > 0)
+				if(prptr->prprio > 0)
 				{
 				//	DBG_PRINT("THE new_prprio IS > 0: %d\n", prptr->new_prprio);
 				}
@@ -176,11 +189,11 @@ void daemonProcess()
 
 
 			DBG_PRINT("*********************** START ***********************\n",NULL);
-			DBG_PRINT("prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent; \n", NULL);
+			DBG_PRINT("prptr->prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent; \n", NULL);
 			DBG_PRINT("prptr->prbaseprio: %d\n", prptr->prbaseprio);
 			DBG_PRINT("(2 * prptr->prextprio): %d\n", prptr->prextprio * 2);
 			DBG_PRINT("prptr->prrecent: %d\n", prptr->prrecent);
-			DBG_PRINT("new_prprio: %d\n", prptr->new_prprio);
+			DBG_PRINT("prprio: %d\n", prptr->prprio);
 	
 
 			//DBG_PRINT("prrecent: %d\n",prptr->prrecent);

@@ -15,6 +15,12 @@ status	insert(
 	int16	curr;			/* Runs through items in a queue*/
 	int16	prev;			/* Holds previous node index	*/
 
+	if(q == readylist)
+	{
+		kprintf("HIT THE READY LIST: %d\n", pid);
+		queuetab[curr].qkey = (127 - key);
+	}
+
 	if (isbadqid(q) || isbadpid(pid)) {
 		return SYSERR;
 	}
@@ -32,6 +38,6 @@ status	insert(
 	queuetab[pid].qkey = key;
 	queuetab[prev].qnext = pid;
 	queuetab[curr].qprev = pid;
-	
+
 	return OK;
 }
