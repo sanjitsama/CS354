@@ -1,2 +1,0 @@
-Without changing any code I basically see a random variation of the letters ABC. 
-As I continue to decrease the number of that the loop reaches, I notice that my result is consistent. I initially assumed that I was recieving a random order. But it turns out that regardless of the size of the loop I'm always greeted with 23 letters of A,B and C

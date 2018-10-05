@@ -1,5 +1,5 @@
 /*  main.c  - main */
-//ok
+
 #include <xinu.h>
 
 process printProc();
@@ -10,14 +10,14 @@ int32 think = 500000;
 
 extern uint32 ctr1000;
 
-process main(void)
+process	main(void)
 {
-  pid32 prP;
-  pid32 prA, prB, prC;
+	pid32 prP;
+	pid32 prA, prB, prC;
 
-  prP = create(printProc, INITSTK, -10, "Print", 0);
-  system(prP);
-  resume(prP);
+	prP = create(printProc, INITSTK, -10, "Print", 0);
+	system(prP);
+	resume(prP);
 
   kprintf("\nStarting A\n");
   prA = create(loop, INITSTK, 0, "Pr A", 2, think, 'A');
@@ -27,7 +27,7 @@ process main(void)
   prB = create(sleepingloop, INITSTK, 0, "Pr B", 3, (int32)20, think/2, 'B');
   resume(prB);
   
-  return OK;
+	return OK;
 }
 
 process loop(int32 think, char c)
@@ -75,3 +75,4 @@ process printProc()
     sleep(1);
   }
 }
+

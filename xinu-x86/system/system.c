@@ -44,14 +44,14 @@ syscall	system(
 		prptr->prprio = 0;
 	}	
 
-	// for(int i = 1; i < NPROC; i++){
+	 for(int i = 1; i < NPROC; i++){
 				
-		// if(proctab[pid].prstate == PR_READY) {
-		// 		pid32 id = getitem(pid);
-		// 		insert(id,readylist, proctab[id].prprio);
+		if(proctab[pid].prstate == PR_READY) {
+	 		pid32 id = getitem(pid);
+			insert(id,readylist, proctab[id].prprio);
 				
-		// }
-	// }
+		 }
+	 }
 
 	resched();
 	restore(mask);
