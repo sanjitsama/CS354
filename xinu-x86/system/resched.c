@@ -10,7 +10,10 @@ struct	defer	Defer;
  */
 void	resched(void)		/* Assumes interrupts are disabled	*/
 {
-	struct procent *ptold;	/* Ptr to table entry for old process	*/
+  
+	//Lab 3 - normal priority or inherited priority?
+
+        struct procent *ptold;	/* Ptr to table entry for old process	*/
 	struct procent *ptnew;	/* Ptr to table entry for new process	*/
 
 	/* If rescheduling is deferred, record attempt and return */
@@ -24,30 +27,8 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 
 	ptold = &proctab[currpid];
 
-
-	if(currpid != 0)
-	{
-		ptold->prprio = ptold->prbaseprio + ( 2 * ptold->prextprio) + ptold->prrecent;
-		ptold->prquantum = QUANTUM + ptold->prrecent;
-
-		if(ptold->prprio < 0)
-		{
-			ptold->prprio = 0;
-		}
-
-		if(ptold->prprio > 127)
-		{
-			ptold->prprio = 127;
-		}
-	}
-
-
-
-
-
-
 	if (ptold->prstate == PR_CURR) {  /* Process remains eligible */
-		if (ptold->prprio < firstkey(readylist)) {
+		if (ptold->prprio > firstkey(readylist)) {
 			return;
 		}
 

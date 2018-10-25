@@ -10,8 +10,6 @@ void	clkhandler()
 {
 	static	uint32	count1000 = 1000;	/* Count to 1000 ms	*/
 
-	static uint32	count10 = 10;	/* Count to 10 ms	*/
-
 	/* Decrement the ms counter, and see if a second has passed */
 
 	if((--count1000) <= 0) {
@@ -41,37 +39,7 @@ void	clkhandler()
 	/*   remaining time reaches zero			     */
 
 	if((--preempt) <= 0) {
-		//preempt = QUANTUM;
-		preempt = proctab[currpid].prquantum;
+		preempt = QUANTUM;
 		resched();
 	}
-
-	//Increment prrecent
-	if((--count10) <= 0)
-	{
-		if(currpid!=0)
-		{
-			proctab[currpid].prrecent = proctab[currpid].prrecent + 1 ;	
-		}
-		
-
-		count10 = 10;
-
-		
-
-		//This below is not changing test2 by much if
-		// if(currpid != 0)
-		// {
-		// proctab[currpid].prprio = proctab[currpid].prbaseprio + (2 * proctab[currpid].prextprio) + proctab[currpid].prrecent;	
-		// }
-
-
-		//prptr->prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
-		//proctab[currpid].prprio = proctab[currpid].prbaseprio + (2 * proctab[currpid].prextprio) + proctab[currpid].prrecent;
-		
-	}
-
-	//resched();
-
-	
 }

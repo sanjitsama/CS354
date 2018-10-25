@@ -40,136 +40,6 @@ pid32	currpid;		/* ID of currently executing process	*/
  *------------------------------------------------------------------------
  */
 
-
-void daemonProcess(){
-
-	intmask mask;
-	
-	struct procent *prptr; /* Ptr to process table entry	*/
-	
-	int32 aveload = 0;
-	
-	int instaLoadHistory[60] = {0};
-
-	//Number Of Items in the process table which are "ready"
-	int instaLoad = 0;
-
-	//Value of all the added up 
-	int runningTotal = 0;
-
-	//value to know how many values are inside of the instaLoadHistory array
-	int counter = 0;
-
-	int temp = 0;
-
-
-	while(1)
-	{
-		mask = disable();
-
-		instaLoad = 0;
-
-		//loop through ready process table and find the number in the PR_TABLE with the ready state
-			for (int i = 1; i < NPROC; i++)
-			{
-
-				prptr = &proctab[i];
-
-				if(prptr->prstate == PR_READY)
-				{
-					instaLoad++; //InstaneousLoad
-				}
-
-			}
-
-
-			temp = instaLoadHistory[counter%60];
-			instaLoadHistory[counter%60] = instaLoad; 
-			counter++;
-
-			runningTotal = runningTotal - (temp - instaLoad);
-
-			if(counter>60){
-				aveload = runningTotal/60;
-			}
-
-			else{
-				aveload = runningTotal/counter;		
-			}
-
-
-			for (int i = 1; i < NPROC; i++)
-			{
-				prptr = &proctab[i];
-
-
-
-				prptr->prrecent = (aveload * prptr->prrecent) / ((2 * aveload )  + 1) + prptr->prextprio;
-
-				//Conditional below DID NOT fix negative prrecent
-				prptr->prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent;
-
-				
-				if(prptr->prrecent < 0)
-				{
-					prptr->prrecent = 0;
-				}
-
-				if(prptr->prprio > 127)
-				{
-					prptr->prprio = 127;
-				}
-
-				if(prptr->prprio < 0)
-				{
-					prptr->prprio = 0;
-				}
-
-				prptr->prquantum = QUANTUM + prptr->prrecent;
-
-
-
-				if(prptr->prstate == PR_READY) {
-					pid32 id = getitem(i);
-					//insert(id,readylist, proctab[id].prprio);
-					insert(id,readylist, prptr->prprio);
-				}
-
-			}
-
-
-			
-			// kprintf("*********************** START ***********************\n",NULL);
-			// kprintf("prptr->new_prprio = prptr->prbaseprio + (2 * prptr->prextprio) + prptr->prrecent; \n", NULL);
-			// kprintf("prptr->prbaseprio: %d\n", prptr->prbaseprio);
-			// kprintf("(2 * prptr->prextprio): %d\n", prptr->prextprio * 2);
-			// kprintf("prptr->prrecent: %d\n", prptr->prrecent);
-			// kprintf("new_prprio: %d\n", prptr->prprio);
-	
-
-			// //DBG_PRINT("prrecent: %d\n",prptr->prrecent);
-			// kprintf("temp: %d\n",temp);
-			// kprintf("counter: %d\n", counter);
-			// kprintf("instaLoad: %d\n",instaLoad);
-			// kprintf("runningTotal: %d\n",runningTotal);	
-			// kprintf("aveload: %d\n",aveload);	
-			// kprintf("*********************** END ***********************\n",NULL);
-
-			//for(int i = 1; i < NPROC; i++){
-				
-				// if(proctab[i].prstate == PR_READY) {
-				// 	pid32 id = getitem(i);
-				// 	insert(id,readylist, proctab[id].prprio);
-				// }
-			//}
-
-		restore(mask);
-			
-		sleepms(1000);
-
-	}
-}
-
 void	nulluser()
 {	
 	struct	memblk	*memptr;	/* Ptr to memory block		*/
@@ -204,24 +74,13 @@ void	nulluser()
 
 	/* Enable interrupts */
 
-
-	pid32 dProcess = create((void *)daemonProcess, INITSTK,  -20, "SDaemon", 0, NULL);
-
-
-	DBG_PRINT("dProcess: %d\n", dProcess);
-
-	system(dProcess);
-	resume(dProcess);
-
 	enable();
 
 	/* Create a process to execute function main() */
 
-	pid32 mainPid = create((void *)main, INITSTK, 0, "Main process", 0,
-        NULL);
-
-	DBG_PRINT("mProcess: %d\n", mainPid);
-	resume (mainPid);
+	resume (
+	   create((void *)main, INITSTK, INITPRIO, "Main process", 0,
+           NULL));
 
 	/* Become the Null process (i.e., guarantee that the CPU has	*/
 	/*  something to run when no other process is ready to execute)	*/
@@ -280,13 +139,11 @@ static	void	sysinit()
 
 	prptr = &proctab[NULLPROC];
 	prptr->prstate = PR_CURR;
-	prptr->prprio = 128; //TODO
+	prptr->prprio = 0;
 	strncpy(prptr->prname, "prnull", 7);
 	prptr->prstkbase = getstk(NULLSTK);
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
-	prptr->prextprio = 20; //TODO
-	prptr->prquantum = QUANTUM + prptr->prrecent; //TODO
 	currpid = NULLPROC;
 	
 	/* Initialize semaphores */

@@ -38,6 +38,8 @@
 
 #define NDESC		5	/* must be odd to make procent 4N bytes	*/
 
+/* Lab 3 TODO - declare variable or #defines here. Add fields to procent */
+
 /* Definition of the process table (multiple of 32 bits) */
 
 struct procent {		/* Entry in the process table		*/
@@ -52,12 +54,6 @@ struct procent {		/* Entry in the process table		*/
 	umsg32	prmsg;		/* Message sent to this process		*/
 	bool8	prhasmsg;	/* Nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
-
-	//Edits
-	pri16 prbaseprio;
-	pri16 prextprio;
-	int32 prrecent;
-	int32 prquantum;
 
 };
 

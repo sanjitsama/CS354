@@ -10,10 +10,6 @@ extern	int32	arp_alloc();
 extern	void	arp_ntoh(struct arppacket *);
 extern	void	arp_hton(struct arppacket *);
 
-/* in file system.c MY EDITS */
-
-extern syscall system(pid32);
-
 /* in file ascdate.c */
 
 extern	status	ascdate(uint32, char *);
@@ -648,6 +644,13 @@ extern	void	xdone(void);
 
 /* in file yield.c */
 extern	syscall	yield(void);
+
+/* Lab 3 functions */
+extern  void  linit(void);
+extern	int32 lcreate(void);
+extern	syscall	ldelete(int32);
+extern	syscall lock(int32, int32, int32);
+extern	syscall	releaseall(int32, ...);
 
 /* NETWORK BYTE ORDER CONVERSION NOT NEEDED ON A BIG-ENDIAN COMPUTER */
 #define	htons(x)   ( ( 0xff & ((x)>>8) ) | ( (0xff & (x)) << 8 ) )

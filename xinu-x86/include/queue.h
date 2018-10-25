@@ -4,13 +4,21 @@
 
 /* Default # of queue entries: 1 per process plus 2 for ready list plus	*/
 /*			2 for sleep list plus 2 per semaphore		*/
+
+#ifndef NLOCKS
+#define NLOCKS 50
+#endif
+
 #ifndef NQENT
-#define NQENT	(NPROC + 4 + NSEM + NSEM)
+
+/* Lab 3 modification: Add headers and footers for the lock queues */
+
+#define NQENT	(NPROC + 4 + NSEM*2 + NLOCKS*2) 
 #endif
 
 #define	EMPTY	(-1)		/* Null value for qnext or qprev index	*/
-#define	MINKEY	0x7FFFFFFF	/* Max key that can be stored in queue	*/
-#define	MAXKEY	0x80000000	/* Min key that can be stored in queue	*/
+#define	MAXKEY	0x7FFFFFFF	/* Max key that can be stored in queue	*/
+#define	MINKEY	0x80000000	/* Min key that can be stored in queue	*/
 
 struct	qentry	{		/* One per process plus two per list	*/
 	int32	qkey;		/* Key on which the queue is ordered	*/

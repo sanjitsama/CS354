@@ -71,14 +71,3 @@ extern	qid16	readylist;	/* global ID for list of ready processes*/
 syscall	kprintf(char *fmt, ...);
 syscall	kputc(byte);
 syscall	kgetc(void);
-
-
-//MY EDITS
-#define MAXEXTPRIO -20 /* Max External Priority */
-#define MINEXTPRIO  20 /* Min External Priority */
-
-#ifdef DEBUG
-#define DBG_PRINT(fmt, args...) kprintf(fmt, args)
-#else
-#define DBG_PRINT(fmt, args...) ;
-#endif

@@ -33,8 +33,7 @@ pid32	create(
 	ssize = (uint32) roundew(ssize);
 	if (((saddr = (uint32 *)getstk(ssize)) ==
 	    (uint32 *)SYSERR ) ||
-	   //TODO (pid=newpid()) == SYSERR || priority < 1 ) { 
-	   	(pid=newpid()) == SYSERR) { 
+	    (pid=newpid()) == SYSERR || priority < 1 ) {
 		restore(mask);
 		return SYSERR;
 	}
@@ -44,34 +43,10 @@ pid32	create(
 
 	/* Initialize process table entry for new process */
 	prptr->prstate = PR_SUSP;	/* Initial state is suspended	*/
-	//TODO prptr->prprio = priority;
+	prptr->prprio = priority;
 	prptr->prstkbase = (char *)saddr;
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;
-
-	//TODO
-	//MY EDITS
-	prptr->prprio = (priority*2) + 50;
-	prptr->prbaseprio = 50;
-	prptr->prrecent = 0;
-	prptr->prquantum = QUANTUM;
-
-	if(priority> MINEXTPRIO)
-	{
-		prptr->prextprio = MINEXTPRIO;
-	}
-
-	else if(priority< MAXEXTPRIO)
-	{
-		prptr->prextprio = MAXEXTPRIO;
-	}
-
-	else{
-		prptr->prextprio = priority;
-	}
-
-
-
 	for (i=0 ; i<PNMLEN-1 && (prptr->prname[i]=name[i])!=NULLCH; i++)
 		;
 	prptr->prsem = -1;
