@@ -167,6 +167,14 @@ static	void	sysinit()
 
 	clkinit();
 
+
+
+	/* ADDED FOR LAB 3 */ 
+	linit(); 
+
+
+	/*END ADDS */
+
 	for (i = 0; i < NDEVS; i++) {
 		init(i);
 	}
