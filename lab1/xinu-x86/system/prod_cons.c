@@ -202,7 +202,7 @@ void start_prod_con(void)
 
 		pidConsumers[b] = create(consumer, 1024, 20, "cons", 3, consumer_tags[b], consumer_counts[b],consumer_sleep_times[b] );
 		resume( pidConsumers[b]);
-		increment = increment + 10;
+//		increment = increment + 10;
 	}
 
 } /* start_prod_con */

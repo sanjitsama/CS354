@@ -10,15 +10,13 @@
 #define L_USED 1
 
 struct	lockent {
-	//struct members
-
-	//Start Here
 
 	//Status if in use 
 	
+	int32 lstatus; 	/* delete, read, or write */ 
 
-	byte lstate; /* Whether entry is L_FREE or L_USED */
-	
+	int32 lstate;  /* Free or Used */	
+
 	int32 lcount; /* Count for the lock */
 
 	qid16 lqueue; /*Queue of the process that are waiting??? DO I NEED THIS? */ 
@@ -29,7 +27,9 @@ struct	lockent {
 
 /* Lab 3 lock table */
 
-extern struct lockent locktab[NLOCKS];
+//extern struct lockent locktab[NLOCKS];
+
+struct lockent locktab[NLOCKS];
 
 
 

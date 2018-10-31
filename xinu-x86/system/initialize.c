@@ -145,6 +145,14 @@ static	void	sysinit()
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
 	currpid = NULLPROC;
+
+
+	/* ADDED FOR LAB 3 */ 
+	linit(); 
+	/*END ADDS */
+
+
+
 	
 	/* Initialize semaphores */
 
@@ -169,11 +177,7 @@ static	void	sysinit()
 
 
 
-	/* ADDED FOR LAB 3 */ 
-	linit(); 
 
-
-	/*END ADDS */
 
 	for (i = 0; i < NDEVS; i++) {
 		init(i);
