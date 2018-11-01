@@ -9,6 +9,7 @@ syscall ldelete(
 {
 	// your implementation
 
+	resched_cntl(DEFER_START);
 	intmask mask;           /* Saved interrupt mask     */
 	struct lockent *lockptr; //Pointer to locktab entry
 

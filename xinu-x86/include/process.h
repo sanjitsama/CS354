@@ -56,6 +56,7 @@ struct procent {		/* Entry in the process table		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
 
 	int16   lockROW; 	/*Lock Read Or Write will tell will distinguish between read or write */
+	int16   lockCounter; 
 
 };
 
