@@ -16,9 +16,13 @@ void linit(void) {
 	for (i = 0; i < NLOCKS; i++)
 	{
 		lockptr = &locktab[i];
-		lockptr->lstate = S_FREE;
+		lockptr->lstate = DELETED;
 		lockptr->lcount = 0;
 		lockptr->lqueue = newqueue();
+		lockptr->holdingCount = 0;
+		lockptr->waitingCount = 0;
+		lockptr->currentMaxPr = 0;
+		lockptr->lockOwner = currpid;
 	}
 }
 

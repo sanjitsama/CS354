@@ -2,34 +2,54 @@
 
 
 // declare variables, #defines, 
-#define DELETE 10
-#define READ 11
-#define WRITE 12
+// #define DELETE 10
+// #define READ 11
+// #define WRITE 12
 
-#define L_FREE 0
-#define L_USED 1
+// #define L_FREE 0
+// #define L_USED 1
+
+
+#ifndef NLOCKS
+#define NLOCKS 50
+#endif
+#ifndef UNUSED
+#define UNUSED 2 
+#endif
+#ifndef READ 
+#define READ 0
+#define READL READ
+#endif
+#ifndef WRITE 
+#define WRITE 1
+#define WRITEL WRITE
+#endif
+#ifndef LFREE
+#define LFREE (-4)
+#endif
+
 
 struct	lockent {
 
 	//Status if in use 
-	
-	int32 lstatus; 	/* delete, read, or write */ 
 
-	int32 lstate;  /* Free or Used */	
+	int16 lstate;  /* Free or Used */	
 
 	int32 lcount; /* Count for the lock */
 
-	qid16 lqueue; /*Queue of the process that are waiting??? DO I NEED THIS? */ 
+	qid16 lqueue; /*Queue of the process that are waiting on this lock*/ 
  
-
-
+	pid32 lockOwner;
+	int32 waitingCount;
+	int32 holdingCount;
+	int16 currentMaxPr; 
 };
 
 /* Lab 3 lock table */
 
 //extern struct lockent locktab[NLOCKS];
 
-struct lockent locktab[NLOCKS];
+extern struct lockent locktab[NLOCKS];
 
 
 

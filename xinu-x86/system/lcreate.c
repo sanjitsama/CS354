@@ -24,9 +24,10 @@ int32 lcreate() {
 
 		lockptr = &locktab[lockDes];
 
-		if(lockptr->lstate == S_FREE) 
+		if(lockptr->lstate == LFREE) 
 		{
-			lockptr->lstate == S_USED;
+			lockptr->lstate = UNUSED;
+			lockptr->lockOwner = currpid;
 			return lockDes;
 		}
 
